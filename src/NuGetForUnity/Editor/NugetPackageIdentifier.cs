@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace NugetForUnity
@@ -16,7 +17,12 @@ namespace NugetForUnity
         /// <summary>
         ///     Gets or sets the version number of the NuGet package.
         /// </summary>
-        public string Version;
+        private string _version;
+        public string Version
+        {
+            get => HandleSemVer2(_version);
+            set => _version = value;
+        }
 
         /// <summary>
         ///     Initializes a new instance of a <see cref="NugetPackageIdentifider" /> with empty ID and Version.
@@ -270,6 +276,11 @@ namespace NugetForUnity
             }
 
             return false;
+        }
+
+        static string HandleSemVer2(string version)
+        {
+            return version.Split("+").First();
         }
 
         /// <summary>
